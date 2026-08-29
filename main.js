@@ -6,7 +6,6 @@ const app = express();
 let pingSayisi = 0;
 let sonPingZamani = "Henüz ping gelmedi";
 
-// ── BANNER ARKA PLANLI MODERN DASHBOARD ──
 app.get('/', (req, res) => {
   pingSayisi++;
   sonPingZamani = new Date().toLocaleTimeString('tr-TR', { timeZone: 'Europe/Istanbul' });
@@ -29,9 +28,8 @@ app.get('/', (req, res) => {
         font-family: 'Space Grotesk', sans-serif;
       }
       body {
-        /* Arka plan Banner ve karartma katmanı */
         background: linear-gradient(rgba(10, 5, 20, 0.85), rgba(10, 5, 20, 0.92)), 
-                    url('https://media.discordapp.net/attachments/1004164597068091452/1543227374345261086/ce93690b-82c2-418e-a1fc-2b508b9baa53.png') no-repeat center center fixed;
+                    url('https://github.com/Jansien/vereliauptimetester/edit/main/banner.png') no-repeat center center fixed;
         background-size: cover;
         color: #fff;
         min-height: 100vh;
