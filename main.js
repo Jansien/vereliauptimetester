@@ -31,10 +31,9 @@ app.get('/', (req, res) => {
         font-family: 'Space Grotesk', sans-serif;
       }
       body {
-
-        background-color: #0b0614;
+        background-color: #120a06;
         background-image: 
-          linear-gradient(rgba(11, 6, 20, 0.82), rgba(11, 6, 20, 0.90)), 
+          linear-gradient(rgba(18, 10, 6, 0.80), rgba(12, 6, 4, 0.88)), 
           url('/banner.png');
         background-position: center center;
         background-repeat: no-repeat;
@@ -48,16 +47,18 @@ app.get('/', (req, res) => {
         padding: 20px;
       }
       .card {
-        background: rgba(23, 14, 40, 0.70);
+        background: rgba(28, 16, 10, 0.72);
         backdrop-filter: blur(24px);
         -webkit-backdrop-filter: blur(24px);
-        border: 1px solid rgba(168, 85, 247, 0.35);
+        border: 1px solid rgba(251, 146, 60, 0.45);
         border-radius: 28px;
         padding: 40px;
         max-width: 480px;
         width: 100%;
         text-align: center;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 35px rgba(168, 85, 247, 0.25);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85), 
+                    0 0 45px rgba(249, 115, 22, 0.28),
+                    inset 0 0 20px rgba(251, 146, 60, 0.1);
         animation: fadeIn 0.8s ease-in-out;
       }
       @keyframes fadeIn {
@@ -68,14 +69,15 @@ app.get('/', (req, res) => {
         display: inline-flex;
         align-items: center;
         gap: 8px;
-        background: rgba(34, 197, 94, 0.15);
+        background: rgba(34, 197, 94, 0.18);
         color: #4ade80;
-        border: 1px solid rgba(34, 197, 94, 0.4);
+        border: 1px solid rgba(34, 197, 94, 0.5);
         padding: 7px 18px;
         border-radius: 999px;
         font-size: 0.85rem;
         font-weight: 700;
         margin-bottom: 22px;
+        box-shadow: 0 0 15px rgba(34, 197, 94, 0.25);
       }
       .status-dot {
         width: 9px;
@@ -88,14 +90,16 @@ app.get('/', (req, res) => {
         font-size: 2.2rem;
         font-weight: 700;
         margin-bottom: 8px;
-        background: linear-gradient(135deg, #ffffff 0%, #c084fc 100%);
+        background: linear-gradient(135deg, #ffffff 10%, #fbbf24 60%, #f97316 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
+        filter: drop-shadow(0 2px 8px rgba(249, 115, 22, 0.3));
       }
       p.subtitle {
-        color: #cbd5e1;
+        color: #fed7aa;
         font-size: 0.95rem;
         margin-bottom: 28px;
+        opacity: 0.9;
       }
       .stats-grid {
         display: grid;
@@ -104,26 +108,27 @@ app.get('/', (req, res) => {
         margin-bottom: 28px;
       }
       .stat-box {
-        background: rgba(255, 255, 255, 0.04);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(251, 146, 60, 0.2);
         padding: 18px 12px;
         border-radius: 18px;
-        transition: transform 0.2s ease, border-color 0.2s ease;
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
       }
       .stat-box:hover {
         transform: translateY(-3px);
-        border-color: rgba(168, 85, 247, 0.4);
+        border-color: rgba(249, 115, 22, 0.6);
+        box-shadow: 0 8px 20px rgba(249, 115, 22, 0.2);
       }
       .stat-label {
         font-size: 0.8rem;
-        color: #94a3b8;
+        color: #fdba74;
         margin-bottom: 6px;
         font-weight: 600;
       }
       .stat-value {
         font-size: 1.25rem;
         font-weight: 700;
-        color: #f8fafc;
+        color: #fff7ed;
       }
       .buttons {
         display: flex;
@@ -145,25 +150,26 @@ app.get('/', (req, res) => {
       .btn-discord {
         background: linear-gradient(135deg, #5865F2 0%, #4752c4 100%);
         color: #fff;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.15);
       }
       .btn-discord:hover {
         transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(88, 101, 242, 0.5);
+        box-shadow: 0 10px 25px rgba(88, 101, 242, 0.55);
       }
       .btn-youtube {
         background: linear-gradient(135deg, #FF0000 0%, #b30000 100%);
         color: #fff;
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.15);
       }
       .btn-youtube:hover {
         transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(255, 0, 0, 0.5);
+        box-shadow: 0 10px 25px rgba(255, 0, 0, 0.55);
       }
       footer {
         margin-top: 26px;
         font-size: 0.8rem;
-        color: #94a3b8;
+        color: #fdba74;
+        opacity: 0.8;
       }
     </style>
   </head>
@@ -198,7 +204,7 @@ app.get('/', (req, res) => {
       </div>
 
       <footer>
-        ⚡ 2026 Verelia Network • Kesintisiz Güç! 💜
+        ⚡ 2026 Verelia Network • Kesintisiz Güç! 🧡
       </footer>
     </div>
   </body>
