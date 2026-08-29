@@ -10,7 +10,6 @@ app.use('/logo.png', express.static(path.join(__dirname, 'logo.png')));
 
 const DATA_FILE = path.join(__dirname, 'stats.json');
 
-// 💾 Verileri JSON dosyasından oku veya oluştur
 function loadStats() {
   try {
     if (fs.existsSync(DATA_FILE)) {
