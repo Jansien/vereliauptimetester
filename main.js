@@ -5,6 +5,7 @@ const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 const app = express();
 
 app.use('/banner.png', express.static(path.join(__dirname, 'banner.png')));
+app.use('/logo.png', express.static(path.join(__dirname, 'logo.png')));
 
 let pingSayisi = 0;
 let sonPingZamani = "Henüz ping gelmedi";
