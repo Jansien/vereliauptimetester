@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 
 const app = express();
@@ -7,21 +8,45 @@ const app = express();
 app.use('/banner.png', express.static(path.join(__dirname, 'banner.png')));
 app.use('/logo.png', express.static(path.join(__dirname, 'logo.png')));
 
-let pingSayisi = 0;
-let sonPingZamani = "Henüz ping gelmedi";
-let tekilZiyaretciler = 1;
+const DATA_FILE = path.join(__dirname, 'stats.json');
+
+// 💾 Verileri JSON dosyasından oku veya oluştur
+function loadStats() {
+  try {
+    if (fs.existsSync(DATA_FILE)) {
+      const raw = fs.readFileSync(DATA_FILE, 'utf8');
+      return JSON.parse(raw);
+    }
+  } catch (err) {
+    console.error('Veri okuma hatası:', err);
+  }
+  return { tekilZiyaretciler: 1, pingSayisi: 0, sonPingZamani: "Henüz ping gelmedi" };
+}
+
+function saveStats() {
+  try {
+    fs.writeFileSync(DATA_FILE, JSON.stringify(stats, null, 2), 'utf8');
+  } catch (err) {
+    console.error('Veri kaydetme hatası:', err);
+  }
+}
+
+let stats = loadStats();
 
 app.get('/api/visit', (req, res) => {
   if (req.query.new === '1') {
-    tekilZiyaretciler++;
+    stats.tekilZiyaretciler++;
+    saveStats();
   }
-  res.json({ count: tekilZiyaretciler });
+  res.json({ count: stats.tekilZiyaretciler });
 });
 
 app.get('/', (req, res) => {
-  pingSayisi++;
-  sonPingZamani = new Date().toLocaleTimeString('tr-TR', { timeZone: 'Europe/Istanbul' });
-  console.log(`⚡ [Verelia Sinyali] Ping #${pingSayisi} alindi! Saat: ${sonPingZamani} 🚀`);
+  stats.pingSayisi++;
+  stats.sonPingZamani = new Date().toLocaleTimeString('tr-TR', { timeZone: 'Europe/Istanbul' });
+  saveStats();
+  
+  console.log(`⚡ [Verelia Sinyali] Ping #${stats.pingSayisi} alindi! Saat: ${stats.sonPingZamani} 🚀`);
 
   const html = `
   <!DOCTYPE html>
@@ -199,11 +224,11 @@ app.get('/', (req, res) => {
       <div class="stats-grid">
         <div class="stat-box">
           <div class="stat-label">📡 Toplam Ping</div>
-          <div class="stat-value">#${pingSayisi}</div>
+          <div class="stat-value">#${stats.pingSayisi}</div>
         </div>
         <div class="stat-box">
           <div class="stat-label">⏱️ Son Sinyal</div>
-          <div class="stat-value">${sonPingZamani}</div>
+          <div class="stat-value">${stats.sonPingZamani}</div>
         </div>
         <div class="stat-box full-width">
           <div class="stat-label">👥 Toplam Tekil Ziyaretçi</div>
@@ -226,7 +251,7 @@ app.get('/', (req, res) => {
     </div>
     
     <script>
-      const hasVisited = localStorage.getItem("verelia_visited");
+      const hasVisited = localStorage.getItem("verelia_v3");
       const url = hasVisited ? '/api/visit' : '/api/visit?new=1';
 
       fetch(url)
@@ -234,7 +259,7 @@ app.get('/', (req, res) => {
         .then(data => {
           document.getElementById("visit-count").innerText = data.count + " Kişi";
           if (!hasVisited) {
-            localStorage.setItem("verelia_visited", "true");
+            localStorage.setItem("verelia_v3", "true");
           }
         })
         .catch(() => {
@@ -276,7 +301,7 @@ client.on('messageCreate', async (message) => {
 
   if (message.content === '!durum' || message.content === '!uptime') {
     const renderUrl = "https://vereliauptimetester.onrender.com/";
-    message.reply(`🛡️ **Verelia Uptime Durumu**\n\n🟢 **Durum:** 7/24 Aktif (Render)\n📡 **Alınan Verelia Sinyali:** \`${pingSayisi} kez\`\n👥 **Tekil Ziyaretçi:** \`${tekilZiyaretciler} kişi\`\n⏱️ **Son Ping Zamanı:** \`${sonPingZamani}\`\n\n🌐 **Canlı Web Paneli:** [Buraya Tıkla & Takip Et](${renderUrl}) ⚡`);
+    message.reply(`🛡️ **Verelia Uptime Durumu**\n\n🟢 **Durum:** 7/24 Aktif (Render)\n📡 **Alınan Verelia Sinyali:** \`${stats.pingSayisi} kez\`\n👥 **Tekil Ziyaretçi:** \`${stats.tekilZiyaretciler} kişi\`\n⏱️ **Son Ping Zamanı:** \`${stats.sonPingZamani}\`\n\n🌐 **Canlı Web Paneli:** [Buraya Tıkla & Takip Et](${renderUrl}) ⚡`);
   }
 });
 
