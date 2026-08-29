@@ -9,6 +9,14 @@ app.use('/logo.png', express.static(path.join(__dirname, 'logo.png')));
 
 let pingSayisi = 0;
 let sonPingZamani = "Henüz ping gelmedi";
+let tekilZiyaretciler = 1;
+
+app.get('/api/visit', (req, res) => {
+  if (req.query.new === '1') {
+    tekilZiyaretciler++;
+  }
+  res.json({ count: tekilZiyaretciler });
+});
 
 app.get('/', (req, res) => {
   pingSayisi++;
@@ -216,30 +224,22 @@ app.get('/', (req, res) => {
         ⚡ 2026 Verelia Network • Kesintisiz Güç! 🧡
       </footer>
     </div>
+    
     <script>
-      const namespace = "verelia-uptime-tester-2026";
-      const key = "visits";
+      const hasVisited = localStorage.getItem("verelia_visited");
+      const url = hasVisited ? '/api/visit' : '/api/visit?new=1';
 
-      if (!localStorage.getItem("verelia_visited")) {
-        fetch(\`https://api.counterapi.dev/v1/\${namespace}/\${key}/up\`)
-          .then(res => res.json())
-          .then(data => {
-            document.getElementById("visit-count").innerText = data.count + " Kişi";
+      fetch(url)
+        .then(res => res.json())
+        .then(data => {
+          document.getElementById("visit-count").innerText = data.count + " Kişi";
+          if (!hasVisited) {
             localStorage.setItem("verelia_visited", "true");
-          })
-          .catch(() => {
-            document.getElementById("visit-count").innerText = "Aktif";
-          });
-      } else {
-        fetch(\`https://api.counterapi.dev/v1/\${namespace}/\${key}/\`)
-          .then(res => res.json())
-          .then(data => {
-            document.getElementById("visit-count").innerText = data.count + " Kişi";
-          })
-          .catch(() => {
-            document.getElementById("visit-count").innerText = "Aktif";
-          });
-      }
+          }
+        })
+        .catch(() => {
+          document.getElementById("visit-count").innerText = "Aktif";
+        });
     </script>
   </body>
   </html>
@@ -276,7 +276,7 @@ client.on('messageCreate', async (message) => {
 
   if (message.content === '!durum' || message.content === '!uptime') {
     const renderUrl = "https://vereliauptimetester.onrender.com/";
-    message.reply(`🛡️ **Verelia Uptime Durumu**\n\n🟢 **Durum:** 7/24 Aktif (Render)\n📡 **Alınan Verelia Sinyali:** \`${pingSayisi} kez\`\n⏱️ **Son Ping Zamanı:** \`${sonPingZamani}\`\n\n🌐 **Canlı Web Paneli:** [Buraya Tıkla & Takip Et](${renderUrl}) ⚡`);
+    message.reply(`🛡️ **Verelia Uptime Durumu**\n\n🟢 **Durum:** 7/24 Aktif (Render)\n📡 **Alınan Verelia Sinyali:** \`${pingSayisi} kez\`\n👥 **Tekil Ziyaretçi:** \`${tekilZiyaretciler} kişi\`\n⏱️ **Son Ping Zamanı:** \`${sonPingZamani}\`\n\n🌐 **Canlı Web Paneli:** [Buraya Tıkla & Takip Et](${renderUrl}) ⚡`);
   }
 });
 
