@@ -1,7 +1,10 @@
 const express = require('express');
+const path = require('path');
 const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 
 const app = express();
+
+app.use('/banner.png', express.static(path.join(__dirname, 'banner.png')));
 
 let pingSayisi = 0;
 let sonPingZamani = "Henüz ping gelmedi";
@@ -28,9 +31,15 @@ app.get('/', (req, res) => {
         font-family: 'Space Grotesk', sans-serif;
       }
       body {
-        background: linear-gradient(rgba(10, 5, 20, 0.85), rgba(10, 5, 20, 0.92)), 
-                    url('https://github.com/Jansien/vereliauptimetester/edit/main/banner.png') no-repeat center center fixed;
+
+        background-color: #0b0614;
+        background-image: 
+          linear-gradient(rgba(11, 6, 20, 0.82), rgba(11, 6, 20, 0.90)), 
+          url('/banner.png');
+        background-position: center center;
+        background-repeat: no-repeat;
         background-size: cover;
+        background-attachment: fixed;
         color: #fff;
         min-height: 100vh;
         display: flex;
@@ -39,16 +48,16 @@ app.get('/', (req, res) => {
         padding: 20px;
       }
       .card {
-        background: rgba(22, 13, 39, 0.65);
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        border: 1px solid rgba(168, 85, 247, 0.3);
+        background: rgba(23, 14, 40, 0.70);
+        backdrop-filter: blur(24px);
+        -webkit-backdrop-filter: blur(24px);
+        border: 1px solid rgba(168, 85, 247, 0.35);
         border-radius: 28px;
         padding: 40px;
         max-width: 480px;
         width: 100%;
         text-align: center;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 35px rgba(168, 85, 247, 0.2);
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.8), 0 0 35px rgba(168, 85, 247, 0.25);
         animation: fadeIn 0.8s ease-in-out;
       }
       @keyframes fadeIn {
@@ -134,22 +143,22 @@ app.get('/', (req, res) => {
         transition: all 0.25s ease;
       }
       .btn-discord {
-        background: #5865F2;
+        background: linear-gradient(135deg, #5865F2 0%, #4752c4 100%);
         color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.1);
       }
       .btn-discord:hover {
-        background: #4752c4;
         transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(88, 101, 242, 0.45);
+        box-shadow: 0 10px 25px rgba(88, 101, 242, 0.5);
       }
       .btn-youtube {
-        background: #FF0000;
+        background: linear-gradient(135deg, #FF0000 0%, #b30000 100%);
         color: #fff;
+        border: 1px solid rgba(255, 255, 255, 0.1);
       }
       .btn-youtube:hover {
-        background: #cc0000;
         transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(255, 0, 0, 0.45);
+        box-shadow: 0 10px 25px rgba(255, 0, 0, 0.5);
       }
       footer {
         margin-top: 26px;
@@ -180,10 +189,10 @@ app.get('/', (req, res) => {
       </div>
 
       <div class="buttons">
-        <a href="DISCORD_DAVET_LINKINI_BURAYA_YAZ" target="_blank" class="btn btn-discord">
+        <a href="https://discord.gg/YOUR_INVITE" target="_blank" class="btn btn-discord">
           <i class="fa-brands fa-discord"></i> Discord Sunucumuza Katıl ✨
         </a>
-        <a href="YOUTUBE_KANAL_LINKINI_BURAYA_YAZ" target="_blank" class="btn btn-youtube">
+        <a href="https://youtube.com/@YOUR_CHANNEL" target="_blank" class="btn btn-youtube">
           <i class="fa-brands fa-youtube"></i> YouTube Kanalımız 🎥
         </a>
       </div>
