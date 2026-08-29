@@ -22,7 +22,9 @@ app.get('/', (req, res) => {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verelia Uptime ⚡</title>
-    <link rel="icon" type="image/png" href="logo.png">
+    
+    <link rel="icon" type="image/png" href="/logo.png">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -59,7 +61,7 @@ app.get('/', (req, res) => {
         width: 100%;
         text-align: center;
         box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.85), 
-                    0 0 45px rgba(249, 115, 22, 0.28),
+                    0 0 45px rgba(249, 115, 22, 0.28), 
                     inset 0 0 20px rgba(251, 146, 60, 0.1);
         animation: fadeIn 0.8s ease-in-out;
       }
