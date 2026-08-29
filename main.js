@@ -195,10 +195,10 @@ app.get('/', (req, res) => {
       </div>
 
       <div class="buttons">
-        <a href="https://discord.gg/YOUR_INVITE" target="_blank" class="btn btn-discord">
+        <a href="https://discord.gg/zfMBDj2kS" target="_blank" class="btn btn-discord">
           <i class="fa-brands fa-discord"></i> Discord Sunucumuza Katıl ✨
         </a>
-        <a href="https://youtube.com/@YOUR_CHANNEL" target="_blank" class="btn btn-youtube">
+        <a href="https://www.youtube.com/watch?v=NGyP4tSRihU&t=39s" target="_blank" class="btn btn-youtube">
           <i class="fa-brands fa-youtube"></i> YouTube Kanalımız 🎥
         </a>
       </div>
