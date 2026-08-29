@@ -244,7 +244,6 @@ client.on('messageCreate', async (message) => {
     const renderUrl = "https://vereliauptimetester.onrender.com/";
     message.reply(`🛡️ **Verelia Uptime Durumu**\n\n🟢 **Durum:** 7/24 Aktif (Render)\n📡 **Alınan Verelia Sinyali:** \`${pingSayisi} kez\`\n⏱️ **Son Ping Zamanı:** \`${sonPingZamani}\`\n\n🌐 **Canlı Web Paneli:** [Buraya Tıkla & Takip Et](${renderUrl}) ⚡`);
   }
-  }
 });
 
 client.login(process.env.DISCORD_TOKEN);
