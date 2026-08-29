@@ -22,9 +22,7 @@ app.get('/', (req, res) => {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Verelia Uptime ⚡</title>
-    
     <link rel="icon" type="image/png" href="/logo.png">
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
@@ -108,15 +106,18 @@ app.get('/', (req, res) => {
       .stats-grid {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 15px;
+        gap: 12px;
         margin-bottom: 28px;
       }
       .stat-box {
         background: rgba(255, 255, 255, 0.05);
         border: 1px solid rgba(251, 146, 60, 0.2);
-        padding: 18px 12px;
+        padding: 16px 10px;
         border-radius: 18px;
         transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      }
+      .stat-box.full-width {
+        grid-column: span 2;
       }
       .stat-box:hover {
         transform: translateY(-3px);
@@ -196,6 +197,10 @@ app.get('/', (req, res) => {
           <div class="stat-label">⏱️ Son Sinyal</div>
           <div class="stat-value">${sonPingZamani}</div>
         </div>
+        <div class="stat-box full-width">
+          <div class="stat-label">👥 Toplam Tekil Ziyaretçi</div>
+          <div class="stat-value" id="visit-count">Yükleniyor...</div>
+        </div>
       </div>
 
       <div class="buttons">
@@ -211,6 +216,31 @@ app.get('/', (req, res) => {
         ⚡ 2026 Verelia Network • Kesintisiz Güç! 🧡
       </footer>
     </div>
+    <script>
+      const namespace = "verelia-uptime-tester-2026";
+      const key = "visits";
+
+      if (!localStorage.getItem("verelia_visited")) {
+        fetch(\`https://api.counterapi.dev/v1/\${namespace}/\${key}/up\`)
+          .then(res => res.json())
+          .then(data => {
+            document.getElementById("visit-count").innerText = data.count + " Kişi";
+            localStorage.setItem("verelia_visited", "true");
+          })
+          .catch(() => {
+            document.getElementById("visit-count").innerText = "Aktif";
+          });
+      } else {
+        fetch(\`https://api.counterapi.dev/v1/\${namespace}/\${key}/\`)
+          .then(res => res.json())
+          .then(data => {
+            document.getElementById("visit-count").innerText = data.count + " Kişi";
+          })
+          .catch(() => {
+            document.getElementById("visit-count").innerText = "Aktif";
+          });
+      }
+    </script>
   </body>
   </html>
   `;
