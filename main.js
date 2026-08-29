@@ -31,7 +31,7 @@ app.get('/', (req, res) => {
       body {
         /* Arka plan Banner ve karartma katmanı */
         background: linear-gradient(rgba(10, 5, 20, 0.85), rgba(10, 5, 20, 0.92)), 
-                    url('BANNER_GORSEL_LINKINI_BURAYA_YAZ') no-repeat center center fixed;
+                    url('https://discord.com/channels/1004143565099761664/1004164597068091452/1543227374659707012') no-repeat center center fixed;
         background-size: cover;
         color: #fff;
         min-height: 100vh;
