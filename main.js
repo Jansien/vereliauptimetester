@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
-
+asdasdawdawd
 const app = express();
 
 app.use('/banner.png', express.static(path.join(__dirname, 'banner.png')));
