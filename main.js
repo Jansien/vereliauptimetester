@@ -3,9 +3,6 @@ const path = require('path');
 const fs = require('fs');
 const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 const app = express();
-// TEST: Her gelen isteğe kasten 500 Basıp Çökme Simülasyonu Yapar
-if (global.server) global.server.close();
-});
 app.use('/banner.png', express.static(path.join(__dirname, 'banner.png')));
 app.use('/logo.png', express.static(path.join(__dirname, 'logo.png')));
 
