@@ -2,9 +2,11 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
-asdasdawdawd
 const app = express();
-
+// TEST: Her gelen isteğe kasten 500 Basıp Çökme Simülasyonu Yapar
+app.all('*', (req, res) => {
+  res.status(500).send('CRITICAL_SERVER_ERROR: Webhook Test Kesintisi');
+});
 app.use('/banner.png', express.static(path.join(__dirname, 'banner.png')));
 app.use('/logo.png', express.static(path.join(__dirname, 'logo.png')));
 
