@@ -5,7 +5,16 @@ const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 const app = express();
 app.use('/banner.png', express.static(path.join(__dirname, 'banner.png')));
 app.use('/logo.png', express.static(path.join(__dirname, 'logo.png')));
-console.error("test");
+// VERELIA KESİNTİ TESTİ
+app.get('/test-error', (req, res) => {
+  console.log('[TEST] HTTP 500 hatası gönderildi.');
+
+  res.status(500).json({
+    success: false,
+    error: 'VERELIA_TEST_ERROR',
+    message: 'Uptime test amaçlı hata yanıtı.'
+  });
+});
 const DATA_FILE = path.join(__dirname, 'stats.json');
 
 function loadStats() {
