@@ -5,13 +5,7 @@ const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 const app = express();
 app.use('/banner.png', express.static(path.join(__dirname, 'banner.png')));
 app.use('/logo.png', express.static(path.join(__dirname, 'logo.png')));
-app.get("/test-error", (req, res) => {
-  res.status(500).json({
-    success: false,
-    error: "VERELIA_TEST_ERROR",
-    message: "Bu hata Verelia uptime sistemi testi için oluşturuldu."
-  });
-});
+console.error("test");
 const DATA_FILE = path.join(__dirname, 'stats.json');
 
 function loadStats() {
