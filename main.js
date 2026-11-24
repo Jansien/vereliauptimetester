@@ -5,9 +5,7 @@ const { Client, GatewayIntentBits, ActivityType } = require('discord.js');
 const app = express();
 app.use('/banner.png', express.static(path.join(__dirname, 'banner.png')));
 app.use('/logo.png', express.static(path.join(__dirname, 'logo.png')));
-if (process.env.TEST_OUTAGE === '1') {
-  return res.status(503).send('VERELIA TEST OUTAGE');
-}
+
 const DATA_FILE = path.join(__dirname, 'stats.json');
 
 function loadStats() {
@@ -41,6 +39,10 @@ app.get('/api/visit', (req, res) => {
 });
 
 app.get('/', (req, res) => {
+  if (process.env.TEST_OUTAGE === '1') {
+    console.error('⚠️ [VERELIA TEST ERROR] Simüle edilmiş hata logu tetiklendi:', new Error('VERELIA_TEST_ERROR'));
+  }
+
   stats.pingSayisi++;
   stats.sonPingZamani = new Date().toLocaleTimeString('tr-TR', { timeZone: 'Europe/Istanbul' });
   saveStats();
@@ -157,151 +159,4 @@ app.get('/', (req, res) => {
         box-shadow: 0 8px 20px rgba(249, 115, 22, 0.2);
       }
       .stat-label {
-        font-size: 0.8rem;
-        color: #fdba74;
-        margin-bottom: 6px;
-        font-weight: 600;
-      }
-      .stat-value {
-        font-size: 1.25rem;
-        font-weight: 700;
-        color: #fff7ed;
-      }
-      .buttons {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-      }
-      .btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        padding: 15px 20px;
-        border-radius: 16px;
-        text-decoration: none;
-        font-weight: 700;
-        font-size: 0.95rem;
-        transition: all 0.25s ease;
-      }
-      .btn-discord {
-        background: linear-gradient(135deg, #5865F2 0%, #4752c4 100%);
-        color: #fff;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-      }
-      .btn-discord:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(88, 101, 242, 0.55);
-      }
-      .btn-youtube {
-        background: linear-gradient(135deg, #FF0000 0%, #b30000 100%);
-        color: #fff;
-        border: 1px solid rgba(255, 255, 255, 0.15);
-      }
-      .btn-youtube:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 10px 25px rgba(255, 0, 0, 0.55);
-      }
-      footer {
-        margin-top: 26px;
-        font-size: 0.8rem;
-        color: #fdba74;
-        opacity: 0.8;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="card">
-      <div class="status-badge">
-        <span class="status-dot"></span>
-        🟢 Kesintisiz Aktif
-      </div>
-      
-      <h1>Verelia Uptime ⚡</h1>
-      <p class="subtitle">7/24 Kesintisiz Bot ve Servis İzleme 🚀</p>
-      
-      <div class="stats-grid">
-        <div class="stat-box">
-          <div class="stat-label">📡 Toplam Ping</div>
-          <div class="stat-value">#${stats.pingSayisi}</div>
-        </div>
-        <div class="stat-box">
-          <div class="stat-label">⏱️ Son Sinyal</div>
-          <div class="stat-value">${stats.sonPingZamani}</div>
-        </div>
-        <div class="stat-box full-width">
-          <div class="stat-label">👥 Toplam Tekil Ziyaretçi</div>
-          <div class="stat-value" id="visit-count">Yükleniyor...</div>
-        </div>
-      </div>
-
-      <div class="buttons">
-        <a href="https://discord.gg/zfMBDj2kS" target="_blank" class="btn btn-discord">
-          <i class="fa-brands fa-discord"></i> Discord Sunucumuza Katıl ✨
-        </a>
-        <a href="https://www.youtube.com/watch?v=NGyP4tSRihU&t=39s" target="_blank" class="btn btn-youtube">
-          <i class="fa-brands fa-youtube"></i> YouTube Kanalımız 🎥
-        </a>
-      </div>
-
-      <footer>
-        ⚡ 2026 Verelia Network • Kesintisiz Güç! 🧡
-      </footer>
-    </div>
-    
-    <script>
-      const hasVisited = localStorage.getItem("verelia_v3");
-      const url = hasVisited ? '/api/visit' : '/api/visit?new=1';
-
-      fetch(url)
-        .then(res => res.json())
-        .then(data => {
-          document.getElementById("visit-count").innerText = data.count + " Kişi";
-          if (!hasVisited) {
-            localStorage.setItem("verelia_v3", "true");
-          }
-        })
-        .catch(() => {
-          document.getElementById("visit-count").innerText = "Aktif";
-        });
-    </script>
-  </body>
-  </html>
-  `;
-
-  res.send(html);
-});
-
-app.listen(process.env.PORT || 3000, () => console.log('HTTP Sunucu Hazir! 🚀'));
-
-const client = new Client({
-  intents: [
-    GatewayIntentBits.Guilds,
-    GatewayIntentBits.GuildMessages,
-    GatewayIntentBits.MessageContent 
-  ]
-});
-
-client.on('ready', () => {
-  console.log(`Bot basariyla giris yapti: ${client.user.tag} 🤖✨`);
-  client.user.setActivity('Verelia Uptime ⚡', { type: ActivityType.Watching });
-});
-
-client.on('messageCreate', async (message) => {
-  if (message.author.bot) return;
-
-  if (message.content === '!ping') {
-    const sent = await message.reply('🏓 Ping ölçülüyor...');
-    const latency = sent.createdTimestamp - message.createdTimestamp;
-    const apiLatency = Math.round(client.ws.ping);
-
-    sent.edit(`🏓 **Pong!**\n⚡ **Gecikme (Mesaj):** \`${latency}ms\`\n📡 **Discord API:** \`${apiLatency}ms\` ✨`);
-  }
-
-  if (message.content === '!durum' || message.content === '!uptime') {
-    const renderUrl = "https://vereliauptimetester.onrender.com/";
-    message.reply(`🛡️ **Verelia Uptime Durumu**\n\n🟢 **Durum:** 7/24 Aktif (Render)\n📡 **Alınan Verelia Sinyali:** \`${stats.pingSayisi} kez\`\n👥 **Tekil Ziyaretçi:** \`${stats.tekilZiyaretciler} kişi\`\n⏱️ **Son Ping Zamanı:** \`${stats.sonPingZamani}\`\n\n🌐 **Canlı Web Paneli:** [Buraya Tıkla & Takip Et](${renderUrl}) ⚡`);
-  }
-});
-
-client.login(process.env.DISCORD_TOKEN);
+        font
