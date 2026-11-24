@@ -39,6 +39,8 @@ app.get('/api/visit', (req, res) => {
 });
 
 app.get('/', (req, res) => {
+  throw new TypeError('Cannot read properties of null (reading \'vereliaPanel\')');
+
   stats.pingSayisi++;
   stats.sonPingZamani = new Date().toLocaleTimeString('tr-TR', { timeZone: 'Europe/Istanbul' });
   saveStats();
@@ -268,6 +270,11 @@ app.get('/', (req, res) => {
   `;
 
   res.send(html);
+});
+
+app.use((err, req, res, next) => {
+  console.error('❌ [VERELIA TEST TYPEERROR]', err);
+  res.status(500).send(err.stack || String(err));
 });
 
 app.listen(process.env.PORT || 3000, () => console.log('HTTP Sunucu Hazir! 🚀'));
